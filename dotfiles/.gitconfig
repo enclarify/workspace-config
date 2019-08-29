@@ -1,0 +1,7 @@
+[core]
+	excludesfile = /home/aps/.gitignore_global
+[push]
+	default = simple
+[user]
+	email = aps@enclarify.com
+	name = Anthony Schexnaildre

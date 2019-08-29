@@ -1,0 +1,8 @@
+.atom-build.json
+.DS_Store
+*.swp
+.idea
+*.sublime-workspace
+*.sublime-project
+tmp/
+.vim/

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# given any file, find the mount point of the drive it's on
+mountpath () {
+  mount | grep $(df -P "$1" | tail -n 1 | awk '{print $1}') | sed -e 's/^.*on \(.*\) type.*$/\1/'
+}
+
+# Create a data URL from a file
+dataurl() {
+	local mimeType=$(file -b --mime-type "$1")
+	if [[ $mimeType == text/* ]]; then
+		mimeType="${mimeType};charset=utf-8"
+	fi
+	echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
+}
+
+#
+# Docker Helper Functions
+#
+dcleanup() {
+	docker rm -v $(docker ps --filter status=exited -q 2>/dev/null) 2>/dev/null
+	docker rmi $(docker images --filter dangling=true -q 2>/dev/null) 2>/dev/null
+}
+
+is-running() {
+	local container=$1
+	[[ $(docker inspect --format "{{.State.Running}}" $container 2>/dev/null) == "true" ]]
+}
+
+del-stopped() {
+	local name=$1
+	if ! is-running $name; then
+		docker rm $name
+	fi
+}

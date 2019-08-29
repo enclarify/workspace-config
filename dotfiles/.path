@@ -1,0 +1,6 @@
+#!/bin/bash
+
+WORKSPACE="$HOME/Developer/workspace"
+CLUSTER_WORKSPACE=$WORKSPACE
+
+export WORKSPACE CLUSTER_WORKSPACE
