@@ -29,6 +29,7 @@ done
 	grep -v "[?*]" | cut -d " " -f2 | \
 	tr ' ' '\n')" scp sftp ssh
 
-# Natural scrolling vertical and horizontal
-synclient HorizScrollDelta=-100
-synclient VertScrollDelta=-100
+# Natural scrolling vertical and horizontal for trackpad
+DEVICE_ID=$(xinput list | grep aps | grep trackpad | awk '{print $5}' | cut -d "=" -f 2)
+ATTR_ID_PLUS_OFFSETS=$(xinput list-props $DEVICE_ID | grep "Synaptics Scrolling Distance" | sed 's/^.*(\([0-9]*\)):.*-\([0-9]*\), \([0-9]*\)/\1 -\2 -\3/')
+xinput set-prop $DEVICE_ID $ATTR_ID_PLUS_OFFSETS
